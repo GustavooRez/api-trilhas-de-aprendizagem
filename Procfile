@@ -1,0 +1,1 @@
+worker: tsc && node -r dotenv/config ./dist/src/index.js dotenv_config_path=./config/.env.prod

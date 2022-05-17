@@ -1,0 +1,25 @@
+{
+  "name": "tfg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sequelize/core": "^7.0.0-alpha.10",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.3",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.5",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.16.2",
+    "sequelize-cli": "^6.4.1",
+    "sqlite": "^4.0.23"
+  }
+}
