@@ -34,7 +34,7 @@ module.exports = {
       codigo,
     } = req.body;
 
-    let usuario;
+    let usuario; 
 
     if (
       nome !== "" &&
