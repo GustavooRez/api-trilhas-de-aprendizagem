@@ -157,9 +157,9 @@ module.exports = {
       const mailOptions = {
         from: "Trilhas de Aprendizagem <sistematrilhasdeaprendizagem@gmail.com>",
         to: email,
-        subject: "Código de acesso ao Sistema Gerenciador de TFG",
-        html: `<h3>Olá, professor!</h3>
-        <br><p>Este é seu código de acesso para acessar o Sistema Gerenciador de TFG:</p> <h2>${codigo_usuario}</h2>
+        subject: "Código de acesso ao Sistema de Trilhas de Aprendizagem",
+        html: `<h2>Olá, professor!</h2>
+        <br><p>Este é seu código de acesso para acessar o Sistema de Trilhas de Aprendizagem:</p> <h2>${codigo_usuario}</h2>
         <p>Ele pode ser utilizado apenas uma vez, então cuidado!<br><br> <p>Muito obrigado por utilizar o nosso sistema!</p>`,
       };
 

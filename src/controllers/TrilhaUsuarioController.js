@@ -48,6 +48,7 @@ module.exports = {
       id_trilha
     });
 
-    return res.json({status:200,trilhaUsuario});
+    return res.json({status:200,
+      message: "Inscrição realizada com sucesso",trilhaUsuario});
   },
 };

@@ -8,12 +8,12 @@ module.exports = {
   async index(req, res) {
     const { id_usuario, id_conteudo } = req.body;
 
-    const conteudoUsuario = await ConteudoUsuario.findAll({
+    const conteudoUsuario = await ConteudoUsuario.findOne({
       where: { id_usuario: id_usuario, id_conteudo: id_conteudo },
     });
 
-    if (conteudoUsuario.length !== 0) {
-      return res.json({ code: 200 });
+    if (conteudoUsuario) {
+      return res.json({ code: 200, completo : conteudoUsuario.completo });
     } else {
       return res.json({ code: 201 });
     }
@@ -168,6 +168,7 @@ module.exports = {
         id_usuario,
         id_conteudo,
         completo,
+        usuario: "Aluno"
       });
 
       return res.json({

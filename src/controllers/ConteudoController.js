@@ -180,6 +180,7 @@ module.exports = {
               id_conteudo: conteudo.id,
               id_usuario: docente,
               usuario: "Professor",
+              completo: 1
             });
           }
         });
@@ -310,6 +311,7 @@ module.exports = {
               id_conteudo: id_conteudo,
               id_usuario: docenteSearch,
               usuario: "Professor",
+              completo: 1
             });
           });
         }
