@@ -136,6 +136,7 @@ module.exports = {
       topicos,
       pre_requisitos,
       trilhas,
+      id_usuario
     } = req.body;
 
     if (
@@ -153,6 +154,7 @@ module.exports = {
         ch_teorica,
         ch_pratica,
         codigo,
+        id_criador: id_usuario
       });
 
       await PreRequisito.create({
@@ -240,6 +242,7 @@ module.exports = {
       docentes,
       trilhas,
       pre_requisitos,
+      id_usuario
     } = req.body;
 
     const { id_conteudo } = req.params;
@@ -254,6 +257,7 @@ module.exports = {
         ch_teorica !== "" &&
         ch_pratica !== "" &&
         codigo !== "" &&
+        id_usuario !== "" &&
         docentes.length !== 0 &&
         trilhas.length !== 0
       ) {
@@ -262,6 +266,7 @@ module.exports = {
           (conteudo.ch_teorica = ch_teorica),
           (conteudo.ch_pratica = ch_pratica),
           (conteudo.codigo = codigo),
+          (conteudo.id_criador = id_usuario),
           await conteudo.save();
 
         if (trilhas !== undefined) {

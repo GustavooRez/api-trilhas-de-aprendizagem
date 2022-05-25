@@ -18,6 +18,13 @@ module.exports = {
 
     return res.json(trilhas);
   },
+  async indexByUser(req, res) {
+    const { id_usuario } = req.params;
+
+    const trilha = await Trilha.findAll({where: {id_criador : id_usuario}});
+
+    return res.json(trilha);
+  },
   async contents(req, res) {
     const { id_trilha } = req.params;
 
@@ -79,13 +86,14 @@ module.exports = {
     return res.json({trilha: result});
   },
   async store(req, res) {
-    const { titulo, descricao, codigo } = req.body;
+    const { titulo, descricao, codigo, id_usuario } = req.body;
 
     if (titulo !== "" && descricao !== "" && codigo !== "") {
       const trilha = await Trilha.create({
         titulo,
         descricao,
         codigo,
+        id_criador : id_usuario
       });
 
       return res.json({ status: 200, trilha });
@@ -97,7 +105,7 @@ module.exports = {
     }
   },
   async update(req, res) {
-    const { titulo, descricao, codigo } = req.body;
+    const { titulo, descricao, codigo, id_usuario } = req.body;
 
     const { id_trilha } = req.params;
     const trilha = await Trilha.findByPk(id_trilha);
@@ -109,6 +117,7 @@ module.exports = {
         trilha.titulo = titulo;
         trilha.descricao = descricao;
         trilha.codigo = codigo;
+        trilha.id_criador = id_usuario
         
         await trilha.save();
         return res.json({ status: 200, message: "Trilha atualizada com sucesso" });

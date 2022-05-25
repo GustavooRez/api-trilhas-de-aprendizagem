@@ -22,6 +22,12 @@ class Usuario extends Model {
     this.hasMany(models.Log, {
       foreignKey: 'id_usuario', as: 'logs'
     })
+    this.hasOne(models.Trilha, {
+      foreignKey: 'id_criador', as: 'trilha'
+    })
+    this.hasOne(models.Conteudo, {
+      foreignKey: 'id_criador', as: 'conteudo'
+    })
   }
 }
 

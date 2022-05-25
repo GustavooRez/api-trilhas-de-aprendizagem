@@ -28,6 +28,7 @@ ConteudoPreRequisito.init(connection);
 CodigoProfessor.init(connection);
 
 Usuario.associate(connection.models)
+Trilha.associate(connection.models)
 Topico.associate(connection.models)
 Conteudo.associate(connection.models)
 PreRequisito.associate(connection.models)

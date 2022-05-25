@@ -30,9 +30,8 @@ module.exports = {
       email,
       senha,
       tipo_usuario,
-      trilhas,
       codigo,
-    } = req.body;
+    } = req.body; 
 
     let usuario; 
 
@@ -42,8 +41,7 @@ module.exports = {
       telefone !== "" &&
       email !== "" &&
       senha !== "" &&
-      tipo_usuario.length !== 0 &&
-      (codigo !== "" || trilhas.length !== 0)
+      tipo_usuario.length !== 0
     ) {
       if (email.includes("@")) {
         if (senha.length >= 10) {
@@ -66,23 +64,6 @@ module.exports = {
                 senha,
                 tipo_usuario: "Aluno",
               });
-
-              if (trilhas !== undefined) {
-                let trilhasSearch = [];
-
-                trilhas.forEach((trilha) => {
-                  if (trilha) {
-                    trilhasSearch.push(trilha);
-                  }
-                });
-
-                trilhasSearch.forEach((trilhaSearch) => {
-                  TrilhaUsuario.create({
-                    id_usuario: usuario.id,
-                    id_trilha: trilhaSearch,
-                  });
-                });
-              }
             } else if (tipo_usuario == "professor") {
               const verifyCodigo = await CodigoProfessor.findOne({
                 where: { codigo, usado: 0 },
@@ -283,7 +264,7 @@ module.exports = {
     return res.json({ results, userContents });
   },
   async update(req, res) {
-    let { nome, aniversario, telefone, email, tipo_usuario, trilhas } =
+    let { nome, aniversario, telefone, email, tipo_usuario } =
       req.body;
 
     const { id_usuario } = req.params;
@@ -298,12 +279,6 @@ module.exports = {
         telefone !== "" &&
         email !== ""
       ) {
-        if (trilhas.length === 0 && tipo_usuario == "Aluno") {
-          return res.json({
-            status: 400,
-            error: "Preencha os campos obrigatórios",
-          });
-        }
         usuario.nome = nome;
         aniversario = moment(aniversario, "DD/MM/YYYY");
         aniversario = aniversario.format("YYYY-MM-DD");
@@ -312,31 +287,6 @@ module.exports = {
         usuario.email = email;
 
         await usuario.save();
-        if (trilhas !== undefined && tipo_usuario == "Aluno") {
-          const trilhaUsuario = await TrilhaUsuario.findAll({
-            where: { id_usuario },
-          });
-
-          if (trilhaUsuario !== null) {
-            trilhaUsuario.forEach((trilha) => {
-              trilha.destroy();
-            });
-          }
-
-          let trilhasSearch = [];
-          trilhas.forEach((trilha) => {
-            if (trilha) {
-              trilhasSearch.push(trilha);
-            }
-          });
-
-          trilhasSearch.map((trilhaSearch) => {
-            TrilhaUsuario.create({
-              id_usuario: id_usuario,
-              id_trilha: trilhaSearch,
-            });
-          });
-        }
       } else {
         return res.json({
           status: 400,

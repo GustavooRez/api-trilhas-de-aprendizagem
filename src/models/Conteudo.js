@@ -18,6 +18,9 @@ class Conteudo extends Model {
   }
 
   static associate(models) {
+    this.belongsTo(models.Usuario, {
+      foreignKey: 'id_criador', as: 'conteudo' 
+    })
     this.hasMany(models.Topico, {
       foreignKey: 'id_conteudo', as: 'topico'
     }),

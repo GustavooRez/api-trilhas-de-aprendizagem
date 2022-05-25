@@ -14,6 +14,12 @@ class Trilha extends Model {
       }
     );
   }
+
+  static associate(models) {
+    this.belongsTo(models.Usuario, {
+      foreignKey: 'id_criador', as: 'trilha'
+    })
+  }
 }
 
 module.exports = Trilha;
