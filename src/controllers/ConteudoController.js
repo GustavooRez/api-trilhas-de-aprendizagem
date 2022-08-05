@@ -133,6 +133,8 @@ module.exports = {
       ch_pratica,
       codigo,
       docentes,
+      creditos_custo,
+      dificuldade,
       topicos,
       pre_requisitos,
       trilhas,
@@ -144,6 +146,8 @@ module.exports = {
       descricao !== "" &&
       ch_teorica !== "" &&
       ch_pratica !== "" &&
+      creditos_custo !== "" &&
+      dificuldade.length > 0 &&
       docentes.length > 0 &&
       codigo !== "" &&
       trilhas.length > 0
@@ -153,6 +157,8 @@ module.exports = {
         descricao,
         ch_teorica,
         ch_pratica,
+        creditos_custo,
+        dificuldade,
         codigo,
         id_criador: id_usuario
       });
@@ -240,6 +246,8 @@ module.exports = {
       ch_pratica,
       codigo,
       docentes,
+      creditos_custo,
+      dificuldade,
       trilhas,
       pre_requisitos,
       id_usuario
@@ -259,6 +267,8 @@ module.exports = {
         codigo !== "" &&
         id_usuario !== "" &&
         docentes.length !== 0 &&
+        creditos_custo !== "" &&
+        dificuldade.length !== 0 &&
         trilhas.length !== 0
       ) {
         (conteudo.titulo = titulo),
@@ -266,6 +276,8 @@ module.exports = {
           (conteudo.ch_teorica = ch_teorica),
           (conteudo.ch_pratica = ch_pratica),
           (conteudo.codigo = codigo),
+          (conteudo.creditos_custo = creditos_custo),
+          (conteudo.dificuldade = dificuldade),
           (conteudo.id_criador = id_usuario),
           await conteudo.save();
 

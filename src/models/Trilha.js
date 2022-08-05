@@ -7,6 +7,7 @@ class Trilha extends Model {
         titulo: DataTypes.STRING,
         descricao: DataTypes.STRING,
         codigo: DataTypes.STRING,
+        creditos_ganhos: DataTypes.INTEGER
       },
       {
         sequelize,

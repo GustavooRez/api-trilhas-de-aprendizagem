@@ -26,6 +26,7 @@ routes.post('/trail-content', verify, TrilhaConteudoController.store)
 routes.post('/contents/:id_conteudo/topico', verify, TopicoController.store)
 routes.post('/contents-prerequisite', verify, ConteudoPreRequisitoController.store) 
 routes.post('/users/interest-administrator', UsuarioController.interestAdministrator)
+routes.post('/users/ranking', verify, UsuarioController.ranking)
 routes.post('/login', UsuarioController.login)
 routes.post('/logout', verify, UsuarioController.logout)
 
@@ -50,6 +51,7 @@ routes.get('/users/:id_usuario/log', verify, LogController.store)
 routes.post('/contents-users-completed', verify, ConteudoUsuarioController.indexCompleted)
 routes.post('/contents-users', verify, ConteudoUsuarioController.index)
 routes.post('/trails-users', verify, TrilhaUsuarioController.index)
+routes.get('/users/credits-index/:id_usuario', verify, UsuarioController.searchIndexCreditsUser)
 
 // Update
 routes.put('/users/:id_usuario', verify, UsuarioController.update);

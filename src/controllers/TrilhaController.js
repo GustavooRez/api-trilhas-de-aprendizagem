@@ -86,13 +86,14 @@ module.exports = {
     return res.json({trilha: result});
   },
   async store(req, res) {
-    const { titulo, descricao, codigo, id_usuario } = req.body;
+    const { titulo, descricao, codigo, id_usuario, creditos_ganhos } = req.body;
 
-    if (titulo !== "" && descricao !== "" && codigo !== "") {
+    if (titulo !== "" && descricao !== "" && codigo !== "" && creditos_ganhos !== "") {
       const trilha = await Trilha.create({
         titulo,
         descricao,
         codigo,
+        creditos_ganhos,
         id_criador : id_usuario
       });
 
@@ -105,7 +106,7 @@ module.exports = {
     }
   },
   async update(req, res) {
-    const { titulo, descricao, codigo, id_usuario } = req.body;
+    const { titulo, descricao, codigo, id_usuario, creditos_ganhos } = req.body;
 
     const { id_trilha } = req.params;
     const trilha = await Trilha.findByPk(id_trilha);
@@ -113,9 +114,10 @@ module.exports = {
     if (!trilha) {
       return res.json({status: 300, error: "Trilha não foi encontrado" });
     }else{
-      if(titulo !== "" && descricao !== "" && codigo !== ""){
+      if(titulo !== "" && descricao !== "" && codigo !== "" && creditos_ganhos !== ""){
         trilha.titulo = titulo;
         trilha.descricao = descricao;
+        trilha.creditos_ganhos = creditos_ganhos;
         trilha.codigo = codigo;
         trilha.id_criador = id_usuario
         

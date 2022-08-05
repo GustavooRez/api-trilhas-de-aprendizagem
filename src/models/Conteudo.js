@@ -8,7 +8,9 @@ class Conteudo extends Model {
         descricao: DataTypes.STRING,
         ch_teorica: DataTypes.STRING,
         ch_pratica: DataTypes.STRING,
-        codigo: DataTypes.STRING
+        codigo: DataTypes.STRING,
+        dificuldade: DataTypes.STRING,
+        creditos_custo: DataTypes.INTEGER
       },
       {
         sequelize,

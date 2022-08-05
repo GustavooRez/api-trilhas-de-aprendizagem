@@ -13,7 +13,7 @@ module.exports = {
     });
 
     if (conteudoUsuario) {
-      return res.json({ code: 200, completo : conteudoUsuario.completo });
+      return res.json({ code: 200, completo: conteudoUsuario.completo });
     } else {
       return res.json({ code: 201 });
     }
@@ -159,6 +159,22 @@ module.exports = {
   async update(req, res) {
     const { id_usuario, id_conteudo, completo } = req.body;
 
+    const usuario = await Usuario.findByPk(id_usuario);
+    if (!usuario) {
+      return res.json({
+        code: 400,
+        message: "Usuário não encontrado",
+      });
+    }
+
+    const conteudo = await Conteudo.findByPk(id_conteudo);
+    if (!conteudo) {
+      return res.json({
+        code: 400,
+        message: "Conteúdo não encontrado",
+      });
+    }
+
     const conteudoUsuario = await ConteudoUsuario.findOne({
       where: { id_usuario: id_usuario, id_conteudo: id_conteudo },
     });
@@ -168,7 +184,7 @@ module.exports = {
         id_usuario,
         id_conteudo,
         completo,
-        usuario: "Aluno"
+        usuario: "Aluno",
       });
 
       return res.json({
@@ -176,13 +192,52 @@ module.exports = {
         message: "Conteúdo do usuário alterado com sucesso",
       });
     } else {
-      conteudoUsuario.completo = completo;
-      await conteudoUsuario.save();
+      if (completo === -1) {
+        conteudoUsuario.destroy();
+        switch (conteudo.dificuldade) {
+          case "facil":
+            usuario.indice = usuario.indice - 1.5;
+            break;
+          case "medio":
+            usuario.indice = usuario.indice - 1;
+            break;
+          case "dificil":
+            usuario.indice = usuario.indice - 0.5;
+            break;
 
-      return res.json({
-        code: 200,
-        message: "Conteúdo do usuário alterado com sucesso",
-      });
+          default:
+            break;
+        }
+        await conteudo.save();
+      } else {
+        conteudoUsuario.completo = completo;
+        await conteudoUsuario.save();
+        switch (conteudo.dificuldade) {
+          case "facil":
+            usuario.indice = usuario.indice + 0.2;
+            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1,2);
+            break;
+          case "medio":
+            usuario.indice = usuario.indice + 0.6;
+            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1,5);
+            break;
+          case "dificil":
+            usuario.indice = usuario.indice + 1;
+            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1,8);
+            break;
+          default:
+            break;
+        }
+        if (usuario.indice > 10) {
+          usuario.indice = 0;
+        }
+        await usuario.save();
+
+        return res.json({
+          code: 200,
+          message: "Conteúdo do usuário alterado com sucesso",
+        });
+      }
     }
   },
 };

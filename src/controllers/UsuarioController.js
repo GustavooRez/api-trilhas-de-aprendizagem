@@ -62,6 +62,8 @@ module.exports = {
                 telefone,
                 email,
                 senha,
+                creditos: 0,
+                indice: 10,
                 tipo_usuario: "Aluno",
               });
             } else if (tipo_usuario == "professor") {
@@ -75,6 +77,8 @@ module.exports = {
                   telefone,
                   email,
                   senha,
+                  creditos: null,
+                  indice: null,
                   tipo_usuario: "Professor",
                 });
 
@@ -93,6 +97,8 @@ module.exports = {
                 telefone,
                 email,
                 senha,
+                creditos: null,
+                indice: null,
                 tipo_usuario: "Admin",
               });
             }
@@ -215,6 +221,34 @@ module.exports = {
     let { tipo_usuario } = req.body;
     const usuarios = await Usuario.findAll({ where: { tipo_usuario } });
 
+    return res.json(usuarios);
+  },
+  async searchIndexCreditsUser(req, res) {
+    const { id_usuario } = req.params;
+
+    const usuario = await Usuario.findByPk(id_usuario, {
+      attributes: [
+        "creditos",
+        "indice",
+      ],
+    });
+    return res.json(usuario);
+  },
+  async ranking(req, res) {
+    const usuarios = await Usuario.findAll({
+      where:{
+        creditos: { [Op.not]: null },
+        tipo_usuario: "Aluno"
+      },
+      attributes: [
+        "nome",
+        "creditos"
+      ],
+      order: [
+        ['creditos','DESC']
+      ],
+      limit: 10
+    });
     return res.json(usuarios);
   },
   async login(req, res) {

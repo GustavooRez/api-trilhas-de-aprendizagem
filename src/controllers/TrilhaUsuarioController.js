@@ -48,6 +48,9 @@ module.exports = {
       id_trilha
     });
 
+    usuario.creditos = usuario.creditos + trilha.creditos_ganhos
+    usuario.save()
+
     return res.json({status:200,
       message: "Inscrição realizada com sucesso",trilhaUsuario});
   },
