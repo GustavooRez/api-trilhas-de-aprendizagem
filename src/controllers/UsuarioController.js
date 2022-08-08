@@ -5,6 +5,10 @@ const Conteudo = require("../models/Conteudo");
 const Usuario = require("../models/Usuario");
 const PreRequisito = require("../models/PreRequisito");
 const CodigoProfessor = require("../models/CodigoProfessor");
+const { QueryTypes } = require("sequelize");
+const Sequelize = require("sequelize");
+const dbConfig = require("../config/database");
+const sequelize = new Sequelize(dbConfig);
 const { Op } = require("@sequelize/core");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
@@ -296,6 +300,28 @@ module.exports = {
       userContents.push(result.codigo);
     });
     return res.json({ results, userContents });
+  },
+  async indexProfile(req, res) {
+    const { id_usuario } = req.params;
+
+    const usuario = await Usuario.findByPk(id_usuario)
+
+    if(!usuario){
+      return res.json({ status: 400, error: "Usuário não foi encontrado" });
+    }
+
+    var results = await sequelize.query(
+      `SELECT Loja.titulo, Loja.categoria, Loja.imagem FROM usuario as Usuario 
+        LEFT JOIN loja_usuario as LojaUsuario ON Usuario.id = LojaUsuario.id_usuario
+        LEFT JOIN loja as Loja ON Loja.id = LojaUsuario.id_loja 
+        WHERE LojaUsuario.id_usuario = :id_usuario AND LojaUsuario.atual = 1`,
+      {
+        replacements: { id_usuario },
+        type: QueryTypes.SELECT,
+      }
+    );
+    
+    return res.json({ status: 200, usuario, itens: results});
   },
   async update(req, res) {
     let { nome, aniversario, telefone, email, tipo_usuario } =

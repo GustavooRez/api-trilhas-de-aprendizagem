@@ -27,6 +27,7 @@ routes.post('/contents/:id_conteudo/topico', verify, TopicoController.store)
 routes.post('/contents-prerequisite', verify, ConteudoPreRequisitoController.store) 
 routes.post('/users/interest-administrator', UsuarioController.interestAdministrator)
 routes.post('/users/ranking', verify, UsuarioController.ranking)
+routes.post('/users/profile/:id_usuario', verify, UsuarioController.indexProfile)
 routes.post('/login', UsuarioController.login)
 routes.post('/logout', verify, UsuarioController.logout)
 

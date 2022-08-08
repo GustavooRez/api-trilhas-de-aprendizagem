@@ -14,6 +14,8 @@ const ConteudoUsuario = require('../models/ConteudoUsuario');
 const TrilhaConteudo = require('../models/TrilhaConteudo');
 const ConteudoPreRequisito = require('../models/ConteudoPreRequisito');
 const CodigoProfessor = require('../models/CodigoProfessor');
+const Loja = require('../models/Loja');
+const LojaUsuario = require('../models/LojaUsuario');
 
 Usuario.init(connection);
 Trilha.init(connection);
@@ -26,6 +28,8 @@ ConteudoUsuario.init(connection);
 TrilhaConteudo.init(connection);
 ConteudoPreRequisito.init(connection);
 CodigoProfessor.init(connection);
+Loja.init(connection);
+LojaUsuario.init(connection);
 
 Usuario.associate(connection.models)
 Trilha.associate(connection.models)
