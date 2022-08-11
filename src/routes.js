@@ -10,6 +10,7 @@ const TrilhaController = require('./controllers/TrilhaController');
 const UsuarioController = require('./controllers/UsuarioController')
 const TrilhaUsuarioController = require('./controllers/TrilhaUsuarioController')
 const verify = require('./controllers/AuthorizationController');
+const LojaController = require('./controllers/LojaController');
 const routes = express.Router();
 
 // Creates
@@ -28,6 +29,7 @@ routes.post('/contents-prerequisite', verify, ConteudoPreRequisitoController.sto
 routes.post('/users/interest-administrator', UsuarioController.interestAdministrator)
 routes.post('/users/ranking', verify, UsuarioController.ranking)
 routes.post('/users/profile/:id_usuario', verify, UsuarioController.indexProfile)
+routes.post('/store/item-user', verify, LojaController.itemUser)
 routes.post('/login', UsuarioController.login)
 routes.post('/logout', verify, UsuarioController.logout)
 
@@ -53,6 +55,7 @@ routes.post('/contents-users-completed', verify, ConteudoUsuarioController.index
 routes.post('/contents-users', verify, ConteudoUsuarioController.index)
 routes.post('/trails-users', verify, TrilhaUsuarioController.index)
 routes.get('/users/credits-index/:id_usuario', verify, UsuarioController.searchIndexCreditsUser)
+routes.get('/store/user/:id_usuario', verify, LojaController.indexAll)
 
 // Update
 routes.put('/users/:id_usuario', verify, UsuarioController.update);
