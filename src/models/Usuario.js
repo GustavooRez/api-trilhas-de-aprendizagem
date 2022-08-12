@@ -11,6 +11,7 @@ class Usuario extends Model {
         senha: DataTypes.STRING,
         tipo_usuario: DataTypes.STRING,
         creditos: DataTypes.FLOAT,
+        creditos_total: DataTypes.FLOAT,
         indice: DataTypes.FLOAT
       },
       {

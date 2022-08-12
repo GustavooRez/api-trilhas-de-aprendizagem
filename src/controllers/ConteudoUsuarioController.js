@@ -72,7 +72,7 @@ module.exports = {
   async storeUserContent(req, res) {
     const { id_usuario, id_conteudo } = req.body;
 
-    const usuario = await Usuario.findByPk(id_usuario);
+    var usuario = await Usuario.findByPk(id_usuario);
     const conteudo = await Conteudo.findByPk(id_conteudo);
 
     if (!usuario) {
@@ -92,6 +92,10 @@ module.exports = {
           completo: 0,
           usuario: "Aluno",
         });
+
+        usuario.creditos = usuario.creditos - conteudo.creditos_custo
+        usuario.creditos_total = usuario.creditos_total - conteudo.creditos_custo
+        usuario.save()
 
         return res.json({
           status: 200,
@@ -141,6 +145,10 @@ module.exports = {
             completo: 0,
             usuario: "Aluno",
           });
+
+          usuario.creditos = usuario.creditos - conteudo.creditos_custo
+          usuario.creditos_total = usuario.creditos_total - conteudo.creditos_custo
+          usuario.save()
 
           return res.json({
             status: 200,
@@ -193,7 +201,6 @@ module.exports = {
       });
     } else {
       if (completo === -1) {
-        conteudoUsuario.destroy();
         switch (conteudo.dificuldade) {
           case "facil":
             usuario.indice = usuario.indice - 1.5;
@@ -207,29 +214,39 @@ module.exports = {
 
           default:
             break;
+        
         }
-        await conteudo.save();
+        usuario.save()
+        await usuario.save();
+
+        return res.json({
+          code: 200,
+          message: "Conteúdo do usuário alterado com sucesso",
+        });
       } else {
         conteudoUsuario.completo = completo;
         await conteudoUsuario.save();
         switch (conteudo.dificuldade) {
           case "facil":
             usuario.indice = usuario.indice + 0.2;
-            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1,2);
+            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1.2);
+            usuario.creditos_total = usuario.creditos_total + (conteudo.creditos_custo * 1.2);
             break;
           case "medio":
             usuario.indice = usuario.indice + 0.6;
-            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1,5);
+            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1.5);
+            usuario.creditos_total = usuario.creditos_total + (conteudo.creditos_custo * 1.5);
             break;
           case "dificil":
             usuario.indice = usuario.indice + 1;
-            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1,8);
+            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1.8);
+            usuario.creditos_total = usuario.creditos_total + (conteudo.creditos_custo * 1.8);
             break;
           default:
             break;
         }
         if (usuario.indice > 10) {
-          usuario.indice = 0;
+          usuario.indice = 10;
         }
         await usuario.save();
 

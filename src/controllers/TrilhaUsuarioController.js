@@ -33,7 +33,7 @@ module.exports = {
   async store(req, res) {
     const { id_usuario, id_trilha } = req.body;
 
-    const usuario = await Usuario.findByPk(id_usuario);
+    let usuario = await Usuario.findByPk(id_usuario);
     const trilha = await Trilha.findByPk(id_trilha);
 
     if (!usuario) {
@@ -49,6 +49,7 @@ module.exports = {
     });
 
     usuario.creditos = usuario.creditos + trilha.creditos_ganhos
+    usuario.creditos_total = usuario.creditos_total + trilha.creditos_ganhos
     usuario.save()
 
     return res.json({status:200,

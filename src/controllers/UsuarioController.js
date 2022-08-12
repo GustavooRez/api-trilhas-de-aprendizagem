@@ -16,6 +16,7 @@ const secretToken = "sdaFsadasdaGasdCMySecretKey";
 const bcrypt = require("bcrypt");
 const salt = bcrypt.genSaltSync(10);
 const nodemailer = require("nodemailer");
+const LojaUsuario = require("../models/LojaUsuario");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -67,9 +68,14 @@ module.exports = {
                 email,
                 senha,
                 creditos: 0,
+                creditos_total: 0,
                 indice: 10,
                 tipo_usuario: "Aluno",
               });
+              await LojaUsuario.create({id_loja: 1, id_usuario: usuario.id, atual:1})
+              await LojaUsuario.create({id_loja: 18, id_usuario: usuario.id, atual:1})
+              await LojaUsuario.create({id_loja: 30, id_usuario: usuario.id, atual:1})
+              
             } else if (tipo_usuario == "professor") {
               const verifyCodigo = await CodigoProfessor.findOne({
                 where: { codigo, usado: 0 },
@@ -82,6 +88,7 @@ module.exports = {
                   email,
                   senha,
                   creditos: null,
+                  creditos_total: null,
                   indice: null,
                   tipo_usuario: "Professor",
                 });
@@ -102,6 +109,7 @@ module.exports = {
                 email,
                 senha,
                 creditos: null,
+                creditos_total: null,
                 indice: null,
                 tipo_usuario: "Admin",
               });
@@ -245,11 +253,12 @@ module.exports = {
         tipo_usuario: "Aluno"
       },
       attributes: [
+        "id",
         "nome",
-        "creditos"
+        "creditos_total"
       ],
       order: [
-        ['creditos','DESC']
+        ['creditos_total','DESC']
       ],
       limit: 10
     });
