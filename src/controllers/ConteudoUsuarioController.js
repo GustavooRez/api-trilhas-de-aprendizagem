@@ -93,9 +93,10 @@ module.exports = {
           usuario: "Aluno",
         });
 
-        usuario.creditos = usuario.creditos - conteudo.creditos_custo
-        usuario.creditos_total = usuario.creditos_total - conteudo.creditos_custo
-        usuario.save()
+        usuario.creditos = usuario.creditos - conteudo.creditos_custo;
+        usuario.creditos_total =
+          usuario.creditos_total - conteudo.creditos_custo;
+        usuario.save();
 
         return res.json({
           status: 200,
@@ -146,9 +147,10 @@ module.exports = {
             usuario: "Aluno",
           });
 
-          usuario.creditos = usuario.creditos - conteudo.creditos_custo
-          usuario.creditos_total = usuario.creditos_total - conteudo.creditos_custo
-          usuario.save()
+          usuario.creditos = usuario.creditos - conteudo.creditos_custo;
+          usuario.creditos_total =
+            usuario.creditos_total - conteudo.creditos_custo;
+          usuario.save();
 
           return res.json({
             status: 200,
@@ -163,6 +165,28 @@ module.exports = {
         }
       }
     }
+  },
+  async forceStorUserContent(req, res) {
+    const { id_usuario, conteudos } = req.body;
+
+    const promises = [];
+    if (conteudos.length > 0) {
+      conteudos.forEach((id_conteudo) => {
+        promises.push(
+          ConteudoUsuario.create({
+            id_usuario,
+            id_conteudo,
+            completo: 1,
+            usuario: "Aluno",
+          })
+        );
+      });
+    }
+    await Promise.all(promises);
+    return res.json({
+      code: 200,
+      message: "Conteudos inseridos com sucesso",
+    });
   },
   async update(req, res) {
     const { id_usuario, id_conteudo, completo } = req.body;
@@ -214,9 +238,8 @@ module.exports = {
 
           default:
             break;
-        
         }
-        usuario.save()
+        usuario.save();
         await usuario.save();
 
         return res.json({
@@ -229,18 +252,21 @@ module.exports = {
         switch (conteudo.dificuldade) {
           case "facil":
             usuario.indice = usuario.indice + 0.2;
-            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1.2);
-            usuario.creditos_total = usuario.creditos_total + (conteudo.creditos_custo * 1.2);
+            usuario.creditos = usuario.creditos + conteudo.creditos_custo * 1.2;
+            usuario.creditos_total =
+              usuario.creditos_total + conteudo.creditos_custo * 1.2;
             break;
           case "medio":
             usuario.indice = usuario.indice + 0.6;
-            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1.5);
-            usuario.creditos_total = usuario.creditos_total + (conteudo.creditos_custo * 1.5);
+            usuario.creditos = usuario.creditos + conteudo.creditos_custo * 1.5;
+            usuario.creditos_total =
+              usuario.creditos_total + conteudo.creditos_custo * 1.5;
             break;
           case "dificil":
             usuario.indice = usuario.indice + 1;
-            usuario.creditos = usuario.creditos + (conteudo.creditos_custo * 1.8);
-            usuario.creditos_total = usuario.creditos_total + (conteudo.creditos_custo * 1.8);
+            usuario.creditos = usuario.creditos + conteudo.creditos_custo * 1.8;
+            usuario.creditos_total =
+              usuario.creditos_total + conteudo.creditos_custo * 1.8;
             break;
           default:
             break;

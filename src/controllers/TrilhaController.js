@@ -43,6 +43,9 @@ module.exports = {
     var result = await Conteudo.findAll({
       where: { id: { [Op.in]: contents } },
       include: [{ model: PreRequisito, as: "pre_requisito" }],
+      order: [
+        ['titulo', 'ASC'],
+      ]
     });
 
     var contentsIdFinal = []
