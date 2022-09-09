@@ -58,6 +58,13 @@ module.exports = {
             senha = bcrypt.hashSync(senha, salt);
 
             aniversario = moment(aniversario, "DD/MM/YYYY");
+
+            if(aniversario > moment().subtract(10, 'years')){
+              return res.json({
+                status: 400,
+                error: "A idade mínima é de 10 anos"
+              });
+            }
             aniversario = aniversario.format("YYYY-MM-DD");
 
             if (tipo_usuario == "student") {
